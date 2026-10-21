@@ -18,8 +18,8 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/memmaker/u6-go/internal/gameimport"
 	"github.com/memmaker/u6-go/internal/host"
+	"github.com/retro-ware/gameimport"
 )
 
 // markerFiles prove a folder holds Ultima VI.
@@ -46,6 +46,9 @@ func main() {
 	defaultDir := os.Getenv("GOPLAY_DATA")
 	if defaultDir == "" {
 		defaultDir = "game"
+		if _, err := os.Stat("data"); err == nil {
+			defaultDir = "data" // goplay: started in games/u6 with no arguments
+		}
 	}
 	dir := flag.String("data", defaultDir, "directory with the original game files")
 	source := flag.String("import", "", "import the game files from this folder/zip/ISO/installer into -data and exit")
